@@ -1,0 +1,29 @@
+nodes:
+  - id: monitor
+    class_path: agents.monitor_agent.MonitorAgent
+  - id: extractor
+    class_path: agents.extractor_agent.ExtractorAgent
+  - id: translator
+    class_path: agents.translation_agent.TranslationAgent
+  - id: invoice_validation
+    class_path: agents.invoice_validation_agent.InvoiceValidationAgent
+  - id: business_validation
+    class_path: agents.business_validation_agent.BusinessValidationAgent
+  - id: human_review
+    class_path: agents.human_review_agent.HumanReviewAgent
+  - id: reporting
+    class_path: agents.reporting_agent.ReportingAgent
+
+edges:
+  - source: monitor
+    target: extractor
+  - source: extractor
+    target: translator
+  - source: translator
+    target: invoice_validation
+  - source: invoice_validation
+    target: business_validation
+  - source: business_validation
+    target: human_review
+  - source: human_review
+    target: reporting

@@ -1,0 +1,55 @@
+# =============================================================
+# Business Validation Rules
+# Used by: Business Validation Agent
+# =============================================================
+
+# -------------------------------------------------------------
+# 1. Tolerance Thresholds for ERP Comparison
+# -------------------------------------------------------------
+tolerances:
+  price_difference_percent: 5       # ±5% tolerance in unit price
+  quantity_difference_percent: 0    # Quantity must match exactly
+  tax_difference_percent: 2         # ±2% tolerance for tax amount
+  tax_rate_difference_percent: 0    # GST rate must match exactly
+
+# -------------------------------------------------------------
+# 2. Currency Validation
+# -------------------------------------------------------------
+accepted_currencies:
+  - USD
+  - EUR
+  - INR
+  - GBP
+
+currency_symbol_map:
+  "$": "USD"
+  "€": "EUR"
+  "₹": "INR"
+  "£": "GBP"
+
+# -------------------------------------------------------------
+# 3. Validation Policies
+# -------------------------------------------------------------
+validation_policies:
+  discrepancy_action: "manual_review"       # If mismatch > tolerance
+  invalid_currency_action: "reject"
+  missing_erp_record_action: "manual_review"
+  tax_mismatch_action: "manual_review"
+  auto_approve_confidence_threshold: 0.95
+
+# -------------------------------------------------------------
+# 4. Reporting Parameters
+# -------------------------------------------------------------
+reporting:
+  include_discrepancy_summary: true
+  include_tax_comparison: true
+  report_format: "HTML"
+  output_dir: "./outputs/reports"
+
+# -------------------------------------------------------------
+# 5. Logging Settings
+# -------------------------------------------------------------
+logging:
+  enable_audit_log: true
+  log_file: "agents/logs/business_validation.log"
+  log_level: "INFO"

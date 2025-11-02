@@ -1,0 +1,75 @@
+# =============================================================
+# Invoice Data Validation Rules
+# Used by: Invoice Data Validation Agent
+# =============================================================
+
+# -------------------------------------------------------------
+# 1. General Invoice Requirements
+# -------------------------------------------------------------
+required_fields:
+  header:
+    - invoice_no
+    - invoice_date
+    - vendor_id
+    - currency
+    - total_amount
+  line_item:
+    - item_code
+    - description
+    - qty
+    - unit_price
+    - total
+
+# -------------------------------------------------------------
+# 2. Field Data Type Rules
+# -------------------------------------------------------------
+data_types:
+  invoice_no: str
+  invoice_date: date
+  vendor_id: str
+  currency: str
+  total_amount: float
+  qty: float
+  unit_price: float
+  total: float
+
+# -------------------------------------------------------------
+# 3. Currency Validation Rules
+# -------------------------------------------------------------
+accepted_currencies:
+  - USD
+  - EUR
+  - INR
+  - GBP
+
+currency_symbol_map:
+  "$": "USD"
+  "€": "EUR"
+  "₹": "INR"
+  "£": "GBP"
+
+# -------------------------------------------------------------
+# 4. Validation Policies
+# -------------------------------------------------------------
+validation_policies:
+  missing_field_action: "flag"
+  total_mismatch_action: "manual_review"
+  invalid_currency_action: "reject"
+  auto_approve_confidence_threshold: 0.95
+
+# -------------------------------------------------------------
+# 5. Reporting Parameters
+# -------------------------------------------------------------
+reporting:
+  include_translation_confidence: true
+  include_discrepancy_summary: true
+  report_format: "HTML"
+  output_dir: "./outputs/reports"
+
+# -------------------------------------------------------------
+# 6. Logging Settings
+# -------------------------------------------------------------
+logging:
+  enable_audit_log: true
+  log_file: "agents/logs/invoice_data_validation.log"
+  log_level: "INFO"
